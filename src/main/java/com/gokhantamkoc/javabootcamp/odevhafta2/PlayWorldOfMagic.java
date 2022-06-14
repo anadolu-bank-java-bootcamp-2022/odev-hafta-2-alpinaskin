@@ -4,6 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Stream;
+
 @SpringBootApplication
 public class PlayWorldOfMagic implements CommandLineRunner {
 	public static void main(String[] args) {
@@ -43,7 +47,27 @@ public class PlayWorldOfMagic implements CommandLineRunner {
 		
 		int spellsUsed = 0;
 		// ______ BASLANGIC _______ Kodunuz buradan baslamali
-		
+
+		float maxSpellDamage = 0.0f;
+
+		if(bossHPs.length <= 0)
+			throw new IllegalArgumentException();
+
+		// bütün spell damagelerden en büyük olanı bul.
+		for(float spellDamage: spellDamageInfo) {
+			if(Float.compare(spellDamage, maxSpellDamage) > 0)
+				maxSpellDamage = spellDamage;
+		}
+
+		// bütün bossları gezerek canlarını spell uygula
+		for(float bossHp: bossHPs) {
+			do{
+			spellsUsed++;
+			bossHp -= maxSpellDamage;
+			}
+			while(Float.compare(bossHp, 0.0f) > 0); // küçük ya da eşitse
+		}
+
 		// ______ SON _______ Kodunuz burada bitmeli
 		/* NOT: ______ BASLANGIC _______ ve ______ SON _______ 
 		 * arasina istediginiz kadar sayida satir ekleyebilirsiniz.
